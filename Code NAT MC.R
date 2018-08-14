@@ -1,9 +1,12 @@
+library(RCurl) #for getURL
+library(repmis) #for source_data
+library(rptR) #for rpt
+library(survival) #for Coxph & cox.zph
+library(car) #for vif
+library(AICcmodavg) #for modavg
 
 # 1. Repeatability (strength, rank, peers) ----
-setwd(...)
-tdc<-read.csv("tdc.data.csv",stringsAsFactors = F) #annual subject values
-library(rptR)
-
+tdc<-read.csv(text = getURL("https://raw.githubusercontent.com/Gavago/Social-and-demographic-predictors-of-survival-in-female-blue-monkeys/master/tdc.data.csv"),stringsAsFactors = F) #annual subject values
 
 pR<-rptGaussian(peers ~ 1 + (1|subj),
                 grname ="subj", data=tvc, nboot=1000, npermut=1000)
@@ -20,12 +23,10 @@ sR
 
 
 # 2. Fixed effects Cox models-----
-setwd(...)
-fe<-read.csv("fixedeffects.data.csv", stringsAsFactors = F)
+fe<-read.csv(text = getURL("https://raw.githubusercontent.com/Gavago/Social-and-demographic-predictors-of-survival-in-female-blue-monkeys/master/fixedeffects.data.csv"),stringsAsFactors = F) #annual subject values
 fe$st.co3<-as.factor(fe$st.co3)
 fe$st.co6<-as.factor(fe$st.co6)
-library(survival) #for Coxph & cox.zph
-library(car) #for vif
+
 
 z.<-function(x) scale(x)
 
@@ -78,8 +79,6 @@ cox.zph(qrtest6)
 
 
 # 2b. Model averaging strength consistency class coefficients----
-
-library(AICcmodavg)
 
 cand.mod<-list(a3,b3)
 cand.names<-c("m1.wrank","m2.wpeers")
@@ -171,9 +170,10 @@ vif(tdc6.1)
 
 # 4. Compare observed st-co class coefficients to coefficients of permuted st.co classes-----
 
-setwd(...)
-load("permuted strength-consistency class coefficients.Rdata")
-load("observed coefficients.Rdata")
+#permuted strength-consistency class coefficients
+source_data("https://github.com/Gavago/Social-and-demographic-predictors-of-survival-in-female-blue-monkeys/blob/master/permuted%20strength-consistency%20class%20coefficients.Rdata?raw=true")
+#observed coefficients.Rdata
+source_data("https://github.com/Gavago/Social-and-demographic-predictors-of-survival-in-female-blue-monkeys/blob/master/observed%20coefficients.Rdata?raw=true")
 
 #objects in st.co NODE perm..Rdata are:
   #p.coefs.3.r.b3, #e.g. 1000 coefficients of permuted st.co3 with *rank* and age at first rep in model, with reference st.co level 3
