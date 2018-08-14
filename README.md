@@ -5,6 +5,11 @@ https://onlinelibrary.wiley.com/doi/abs/10.1002/ece3.3781
 Survival analysis on 83 adult female blue monkeys, assessing how social factors influence risk of death.
 Analysis of both fixed-time (multi-year) and time-varying (annual) social correlates of survival.
 
+Run analysis using "Code NAT MC.R"
+Set wd  and call other data
+
+
+
 Variables in data set include:\
 **strength.3 & strength.6**: Average Dyadic Sociality Index (DSI based on grooming and spatial association) with top 3 and top 6 partners\
 **cons.3 & cons.6** : % of top partners consistent from year to year\
