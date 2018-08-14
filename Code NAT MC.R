@@ -5,20 +5,24 @@ library(survival) #for Coxph & cox.zph
 library(car) #for vif
 library(AICcmodavg) #for modavg
 
-# 1. Repeatability (strength, rank, peers) ----
+# 1. Repeatability (strength, rank, number female groupmates) ----
 tdc<-read.csv(text = getURL("https://raw.githubusercontent.com/Gavago/Social-and-demographic-predictors-of-survival-in-female-blue-monkeys/master/tdc.data.csv"),stringsAsFactors = F) #annual subject values
 
-pR<-rptGaussian(peers ~ 1 + (1|subj),
-                grname ="subj", data=tvc, nboot=1000, npermut=1000)
+pR<-rptGaussian(af.groupmates ~ 1 + (1|subj),
+                grname ="subj", data=tdc, nboot=1000, npermut=1000)
 pR
 
 rR<-rptGaussian(rank ~ 1 + (1|subj),
-                grname ="subj", data=tvc, nboot=1000, npermut=1000)
+                grname ="subj", data=tdc, nboot=1000, npermut=1000)
 rR
 
-sR<-rptGaussian(strength ~ peers + (1|subj),
-                grname ="subj", data=tvc, nboot=1000, npermut=1000)
+sR<-rptGaussian(strength.3 ~ af.groupmates + (1|subj),
+                grname ="subj", data=tdc, nboot=1000, npermut=1000)
 sR
+
+s6R<-rptGaussian(strength.6 ~ af.groupmates + (1|subj),
+                grname ="subj", data=tdc, nboot=1000, npermut=1000)
+s6R
 
 
 
